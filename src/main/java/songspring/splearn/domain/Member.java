@@ -16,13 +16,15 @@ public class Member {
 
     private MemberStauts status;
 
-    public static Member of(String email, String nickname, String passwordHash) {
-        Member member = new Member();
-        member.email = Objects.requireNonNull(email);
-        member.nickname = Objects.requireNonNull(nickname);
-        member.passwordHash = Objects.requireNonNull(passwordHash);
-        member.status = MemberStauts.PENDING;
-        return member;
+    private Member(String email, String nickname, String passwordHash) {
+        this.email = Objects.requireNonNull(email);
+        this.nickname = Objects.requireNonNull(nickname);
+        this.passwordHash = Objects.requireNonNull(passwordHash);
+        this.status = MemberStauts.PENDING;
+    }
+
+    public static Member create(String email, String nickname, String password, PasswordEncode passwordEncode) {
+        return new Member(email, nickname, passwordEncode.encode(password));
     }
 
     public void activate() {
@@ -37,4 +39,17 @@ public class Member {
         this.status = MemberStauts.DEACTIVATED;
     }
 
+    public boolean verifyPassword(String password, PasswordEncode passwordEncode) {
+        return passwordEncode.matches(password, passwordHash);
+    }
+
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void changePassword(String newPassword, PasswordEncode passwordEncode) {
+
+        this.passwordHash = passwordEncode.encode(newPassword);
+
+    }
 }

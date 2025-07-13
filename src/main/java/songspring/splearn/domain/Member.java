@@ -2,6 +2,7 @@ package songspring.splearn.domain;
 
 import static org.springframework.util.Assert.state;
 import java.util.Objects;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -16,15 +17,18 @@ public class Member {
 
     private MemberStauts status;
 
-    private Member(String email, String nickname, String passwordHash) {
-        this.email = Objects.requireNonNull(email);
-        this.nickname = Objects.requireNonNull(nickname);
-        this.passwordHash = Objects.requireNonNull(passwordHash);
-        this.status = MemberStauts.PENDING;
+    private Member() {
     }
 
-    public static Member create(String email, String nickname, String password, PasswordEncode passwordEncode) {
-        return new Member(email, nickname, passwordEncode.encode(password));
+    public static Member create(MemberCreateRequest createRequest, PasswordEncode passwordEncode) {
+        Member member = new Member();
+
+        member.email = Objects.requireNonNull(createRequest.email());
+        member.nickname = Objects.requireNonNull(createRequest.nickname());
+        member.passwordHash = Objects.requireNonNull(passwordEncode.encode(createRequest.password()));
+        member.status = MemberStauts.PENDING;
+
+        return member;
     }
 
     public void activate() {
@@ -44,12 +48,16 @@ public class Member {
     }
 
     public void changeNickname(String nickname) {
-        this.nickname = nickname;
+        this.nickname = Objects.requireNonNull(nickname);
     }
 
     public void changePassword(String newPassword, PasswordEncode passwordEncode) {
 
-        this.passwordHash = passwordEncode.encode(newPassword);
+        this.passwordHash = passwordEncode.encode(Objects.requireNonNull(newPassword));
 
+    }
+
+    public boolean isActive() {
+        return this.status == MemberStauts.ACTIVE;
     }
 }

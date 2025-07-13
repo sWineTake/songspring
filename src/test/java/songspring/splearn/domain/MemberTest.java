@@ -1,5 +1,6 @@
 package songspring.splearn.domain;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -26,7 +27,9 @@ class MemberTest {
             }
         };
 
-        member = Member.create("user@naver.com", "User1", "password123", passwordEncode);
+        MemberCreateRequest createRequest = new MemberCreateRequest("user@naver.com", "User1", "password123");
+
+        member = Member.create(createRequest, passwordEncode);
     }
 
     @Test
@@ -106,4 +109,18 @@ class MemberTest {
 
     }
 
+    @Test
+    void 활성상태인가() {
+
+        assertThat(member.isActive()).isFalse();
+
+        member.activate();
+
+        assertThat(member.isActive()).isTrue();
+
+        member.deactivate();
+
+        assertThat(member.isActive()).isFalse();
+
+    }
 }

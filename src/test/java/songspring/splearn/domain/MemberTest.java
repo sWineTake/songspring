@@ -123,4 +123,15 @@ class MemberTest {
         assertThat(member.isActive()).isFalse();
 
     }
+
+    @Test
+    void 이메일_검증() {
+
+        assertThatThrownBy(() ->
+                Member.create(new MemberCreateRequest("sdkfljadsl", "user1", "password1"), passwordEncode)
+        ).isInstanceOf(IllegalArgumentException.class);
+
+        // Member.create(new MemberCreateRequest("sdkfljadsl", "user1", "password1"), passwordEncode);
+
+    }
 }

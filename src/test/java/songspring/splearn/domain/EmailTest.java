@@ -13,6 +13,7 @@ class EmailTest {
         Email email2 = new Email("user@naver.com");
 
         assertThat(email1).isEqualTo(email2);
+
     }
 
 }

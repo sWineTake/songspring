@@ -1,6 +1,5 @@
 package songspring.splearn.domain;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -27,13 +26,13 @@ class MemberTest {
             }
         };
 
-        MemberCreateRequest createRequest = new MemberCreateRequest("user@naver.com", "User1", "password123");
+        MemberRegisterRequest createRequest = new MemberRegisterRequest("user@naver.com", "User1", "password123");
 
-        member = Member.create(createRequest, passwordEncode);
+        member = Member.register(createRequest, passwordEncode);
     }
 
     @Test
-    void createMember() {
+    void registerMember() {
         assertThat(member.getStatus()).isEqualTo(MemberStauts.PENDING);
     }
 
@@ -128,10 +127,10 @@ class MemberTest {
     void 이메일_검증() {
 
         assertThatThrownBy(() ->
-                Member.create(new MemberCreateRequest("sdkfljadsl", "user1", "password1"), passwordEncode)
+                Member.register(new MemberRegisterRequest("sdkfljadsl", "user1", "password1"), passwordEncode)
         ).isInstanceOf(IllegalArgumentException.class);
 
-        // Member.create(new MemberCreateRequest("sdkfljadsl", "user1", "password1"), passwordEncode);
+        // Member.create(new MemberRegisterRequest("sdkfljadsl", "user1", "password1"), passwordEncode);
 
     }
 }

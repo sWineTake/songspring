@@ -1,23 +1,39 @@
 package songspring.splearn.domain;
 
 import static org.springframework.util.Assert.state;
+
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.util.Objects;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@Entity
 @Getter
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Embedded
     private Email email;
 
     private String nickname;
 
     private String passwordHash;
 
+    @Enumerated(EnumType.STRING)
     private MemberStauts status;
-
-    private Member() {
-    }
 
     public static Member register(MemberRegisterRequest createRequest, PasswordEncode passwordEncode) {
         Member member = new Member();

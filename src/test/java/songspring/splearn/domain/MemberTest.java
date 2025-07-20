@@ -2,6 +2,8 @@ package songspring.splearn.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static songspring.splearn.domain.MemberFixture.createMember;
+import static songspring.splearn.domain.MemberFixture.createPasswordEncode;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,21 +16,9 @@ class MemberTest {
     @BeforeEach
     void setUp() {
 
-        this.passwordEncode = new PasswordEncode() {
-            @Override
-            public String encode(String password) {
-                return password.toUpperCase();
-            }
+        this.passwordEncode = createPasswordEncode();
 
-            @Override
-            public boolean matches(String password, String passwordHash) {
-                return encode(password).equals(passwordHash);
-            }
-        };
-
-        MemberRegisterRequest createRequest = new MemberRegisterRequest("user@naver.com", "User1", "password123");
-
-        member = Member.register(createRequest, passwordEncode);
+       member = createMember(passwordEncode);
     }
 
     @Test
@@ -126,10 +116,7 @@ class MemberTest {
     @Test
     void 이메일_검증() {
 
-        assertThatThrownBy(() ->
-                Member.register(new MemberRegisterRequest("sdkfljadsl", "user1", "password1"), passwordEncode)
-        ).isInstanceOf(IllegalArgumentException.class);
-
+        assertThatThrownBy(() -> createMember("jaldksfjas", passwordEncode)).isInstanceOf(IllegalArgumentException.class);
         // Member.create(new MemberRegisterRequest("sdkfljadsl", "user1", "password1"), passwordEncode);
 
     }

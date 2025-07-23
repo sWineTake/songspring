@@ -10,6 +10,10 @@ public class MemberFixture {
         return Member.register(new MemberRegisterRequest(email, "user1", "password1"), passwordEncode);
     }
 
+    public static MemberRegisterRequest createMemberRegisterRequest() {
+        return new MemberRegisterRequest("user@naver.com", "user1", "password1");
+    }
+
     public static PasswordEncode createPasswordEncode() {
         return new PasswordEncode() {
             @Override

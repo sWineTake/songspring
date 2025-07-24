@@ -45,6 +45,7 @@
 _Entity_ 
 
 #### 속성
+- `id` 
 - `email` : 이메일 - ID
 - `nickname` : 닉네임
 - `passwordHash` : 비밀번호
@@ -68,6 +69,9 @@ _Enum_
 - `PENDING` : 등록 대기
 - `ACTIVE` : 등록 완료
 - `DEACTIVATED` : 탈퇴
+
+### DuplicateEmailException
+_Exception_
 
 ### 비밀번호 인코더(Password Encoder)
 _domain Service_

@@ -1,6 +1,8 @@
 package songspring.splearn.application.required;
 
+import java.util.Optional;
 import org.springframework.data.repository.Repository;
+import songspring.splearn.domain.Email;
 import songspring.splearn.domain.Member;
 
 /**
@@ -9,5 +11,8 @@ import songspring.splearn.domain.Member;
 public interface MemberRepository extends Repository<Member, Long> {
 
     Member save(Member member);
+
+    Optional<Member> findByEmail(Email email);
+
 
 }

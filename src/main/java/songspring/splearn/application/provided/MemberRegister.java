@@ -1,5 +1,6 @@
 package songspring.splearn.application.provided;
 
+import jakarta.validation.Valid;
 import songspring.splearn.domain.Member;
 import songspring.splearn.domain.MemberRegisterRequest;
 
@@ -8,6 +9,6 @@ import songspring.splearn.domain.MemberRegisterRequest;
  */
 public interface MemberRegister {
 
-    Member register(MemberRegisterRequest registerRequest);
+    Member register(@Valid MemberRegisterRequest registerRequest);
 
 }

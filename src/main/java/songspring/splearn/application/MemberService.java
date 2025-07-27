@@ -1,7 +1,9 @@
 package songspring.splearn.application;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import songspring.splearn.application.provided.MemberRegister;
 import songspring.splearn.application.required.EmailSender;
 import songspring.splearn.application.required.MemberRepository;
@@ -12,6 +14,8 @@ import songspring.splearn.domain.MemberRegisterRequest;
 import songspring.splearn.domain.PasswordEncode;
 
 @Service
+@Validated
+@Transactional
 @RequiredArgsConstructor
 public class MemberService implements MemberRegister {
 

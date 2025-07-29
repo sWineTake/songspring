@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.util.ReflectionTestUtils;
-import songspring.splearn.application.MemberService;
+import songspring.splearn.application.MemberModifyService;
 import songspring.splearn.application.required.EmailSender;
 import songspring.splearn.application.required.MemberRepository;
 import songspring.splearn.domain.Email;
@@ -25,7 +25,7 @@ class MemberRegisterManualTest {
     @Test
     void registerTestStub() {
 
-        MemberRegister register = new MemberService(
+        MemberRegister register = new MemberModifyService(
                 new MemberRegisterManualTest.MemberRepositoryStub(),
                 new MemberRegisterManualTest.EmailSenderStub(),
                 MemberFixture.createPasswordEncode()
@@ -51,6 +51,11 @@ class MemberRegisterManualTest {
             return Optional.empty();
         }
 
+        @Override
+        public Optional<Member> findById(Long memberId) {
+            return Optional.empty();
+        }
+
     }
 
     static class EmailSenderStub implements EmailSender {
@@ -65,7 +70,7 @@ class MemberRegisterManualTest {
     @Test
     void registerTestMock() {
         MemberRegisterManualTest.EmailSenderMock emailSenderMock = new MemberRegisterManualTest.EmailSenderMock();
-        MemberRegister register = new MemberService(
+        MemberRegister register = new MemberModifyService(
                 new MemberRegisterManualTest.MemberRepositoryMock(),
                 emailSenderMock,
                 MemberFixture.createPasswordEncode()
@@ -91,6 +96,11 @@ class MemberRegisterManualTest {
         public Optional<Member> findByEmail(Email email) {
             return Optional.empty();
         }
+
+        @Override
+        public Optional<Member> findById(Long memberId) {
+            return Optional.empty();
+        }
     }
 
     static class EmailSenderMock implements EmailSender {
@@ -107,7 +117,7 @@ class MemberRegisterManualTest {
     void registerTestMockito() {
         EmailSender emailSenderMock = Mockito.mock(EmailSender.class);
 
-        MemberRegister register = new MemberService(
+        MemberRegister register = new MemberModifyService(
                 new MemberRegisterManualTest.MemberRepositoryMock(),
                 emailSenderMock,
                 MemberFixture.createPasswordEncode()

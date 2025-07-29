@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import songspring.splearn.application.provided.MemberFinder;
 import songspring.splearn.application.provided.MemberRegister;
 import songspring.splearn.application.required.EmailSender;
 import songspring.splearn.application.required.MemberRepository;
@@ -17,8 +18,9 @@ import songspring.splearn.domain.PasswordEncode;
 @Validated
 @Transactional
 @RequiredArgsConstructor
-public class MemberService implements MemberRegister {
+public class MemberModifyService implements MemberRegister {
 
+    private final MemberFinder memberFinder;
     private final MemberRepository memberRepository;
     private final EmailSender emailSender;
     private final PasswordEncode passwordEncode;
@@ -36,6 +38,17 @@ public class MemberService implements MemberRegister {
         return member;
     }
 
+    @Override
+    public Member activate(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. id : " + memberId));
+
+        memberFinder.find(memberId);
+
+        member.activate();
+
+        return memberRepository.save(member);
+    }
+
     private void sendWelcomeEmail(Member member) {
         emailSender.send(member.getEmail(), "등록을 완료해주세요.", "아래 링크를 클릭해서 등록을 완료해주세요.");
     }
@@ -46,4 +59,8 @@ public class MemberService implements MemberRegister {
         }
     }
 
+    @Override
+    public Member find(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. id : " + memberId));
+    }
 }

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ import songspring.splearn.domain.MemberStauts;
 @SpringBootTest
 @Import(SplearnTestConfig.class)
 // @TestConstructor(autowireMode = AutowireMode.ALL) -> junit-platform.properties 설정으로 변경
-public record MemberRegisterTest(MemberRegister memberRegister) {
+public record MemberRegisterTest(MemberRegister memberRegister, EntityManager em) {
 
     @Test
     void register() {
@@ -58,4 +59,17 @@ public record MemberRegisterTest(MemberRegister memberRegister) {
         assertThatThrownBy(() -> memberRegister.register(member4)).isInstanceOf(ConstraintViolationException.class);
     }
 
+    @Test
+    void 회원_활성상태_변경() {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+
+        em.flush();
+        em.clear();
+
+        Member activate = memberRegister.activate(member.getId());
+
+        em.flush();
+
+        assertThat(activate.getStatus()).isEqualTo(MemberStauts.ACTIVE);
+    }
 }

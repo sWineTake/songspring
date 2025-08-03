@@ -22,7 +22,7 @@ import songspring.splearn.domain.MemberStauts;
 @SpringBootTest
 @Import(SplearnTestConfig.class)
 // @TestConstructor(autowireMode = AutowireMode.ALL) -> junit-platform.properties 설정으로 변경
-public record MemberRegisterTest(MemberRegister memberRegister, EntityManager em) {
+record MemberRegisterTest(MemberRegister memberRegister, EntityManager em) {
 
     @Test
     void register() {

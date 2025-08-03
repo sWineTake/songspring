@@ -20,7 +20,7 @@ import songspring.splearn.domain.PasswordEncode;
 @RequiredArgsConstructor
 public class MemberModifyService implements MemberRegister {
 
-    private final MemberFinder memberFinder;
+    // private final MemberFinder memberFinder;
     private final MemberRepository memberRepository;
     private final EmailSender emailSender;
     private final PasswordEncode passwordEncode;
@@ -42,7 +42,7 @@ public class MemberModifyService implements MemberRegister {
     public Member activate(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. id : " + memberId));
 
-        memberFinder.find(memberId);
+        // Member member = memberFinder.find(memberId);
 
         member.activate();
 
@@ -59,8 +59,4 @@ public class MemberModifyService implements MemberRegister {
         }
     }
 
-    @Override
-    public Member find(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. id : " + memberId));
-    }
 }

@@ -1,10 +1,12 @@
 package songspring.splearn.adapter.integration;
 
+import org.springframework.context.annotation.Fallback;
 import org.springframework.stereotype.Component;
 import songspring.splearn.application.required.EmailSender;
 import songspring.splearn.domain.Email;
 
 @Component
+@Fallback
 public class DummyEmailSender implements EmailSender {
 
     @Override

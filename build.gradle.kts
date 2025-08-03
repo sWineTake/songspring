@@ -36,6 +36,9 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+    testImplementation("org.junit-pioneer:junit-pioneer:2.3.0")
+
+
 }
 
 tasks.withType<Test> {

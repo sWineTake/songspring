@@ -2,6 +2,7 @@ package songspring.splearn.domain;
 
 import static org.springframework.util.Assert.state;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +10,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,15 +23,10 @@ import org.hibernate.annotations.NaturalIdCache;
 @Entity
 @Getter
 @ToString
-@NaturalIdCache
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+@NaturalIdCache
+public class Member extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Embedded
     @NaturalId
     private Email email;
 
@@ -36,7 +34,6 @@ public class Member {
 
     private String passwordHash;
 
-    @Enumerated(EnumType.STRING)
     private MemberStauts status;
 
     public static Member register(MemberRegisterRequest createRequest, PasswordEncode passwordEncode) {

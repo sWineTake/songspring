@@ -22,7 +22,7 @@ import org.hibernate.annotations.NaturalIdCache;
 
 @Entity
 @Getter
-@ToString
+@ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @NaturalIdCache
 public class Member extends AbstractEntity {
@@ -35,6 +35,8 @@ public class Member extends AbstractEntity {
     private String passwordHash;
 
     private MemberStauts status;
+
+    private MemberDetail detail;
 
     public static Member register(MemberRegisterRequest createRequest, PasswordEncode passwordEncode) {
         Member member = new Member();

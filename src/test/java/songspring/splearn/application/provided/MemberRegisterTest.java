@@ -10,7 +10,6 @@ import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.validation.annotation.Validated;
 import songspring.splearn.SplearnTestConfig;
 import songspring.splearn.domain.DuplicateEmailException;
 import songspring.splearn.domain.Member;
@@ -27,6 +26,8 @@ record MemberRegisterTest(MemberRegister memberRegister, EntityManager em) {
     @Test
     void register() {
         Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+
+        System.out.println(member);
 
         assertThat(member.getId()).isNotNull();
         assertThat(member.getStatus()).isEqualTo(MemberStauts.PENDING);

@@ -1,4 +1,4 @@
-package songspring.splearn.application.provided;
+package songspring.splearn.application.member.provided;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import songspring.splearn.SplearnTestConfig;
-import songspring.splearn.domain.Member;
-import songspring.splearn.domain.MemberFixture;
+import songspring.splearn.domain.member.Member;
+import songspring.splearn.domain.member.MemberFixture;
 
 @Transactional
 @SpringBootTest

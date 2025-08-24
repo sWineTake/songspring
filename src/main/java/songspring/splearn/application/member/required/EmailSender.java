@@ -1,6 +1,6 @@
-package songspring.splearn.application.required;
+package songspring.splearn.application.member.required;
 
-import songspring.splearn.domain.Email;
+import songspring.splearn.domain.shared.Email;
 
 /**
  * 이메일을 발송한다.

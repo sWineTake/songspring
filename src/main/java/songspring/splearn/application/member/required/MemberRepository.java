@@ -1,9 +1,9 @@
-package songspring.splearn.application.required;
+package songspring.splearn.application.member.required;
 
 import java.util.Optional;
 import org.springframework.data.repository.Repository;
-import songspring.splearn.domain.Email;
-import songspring.splearn.domain.Member;
+import songspring.splearn.domain.shared.Email;
+import songspring.splearn.domain.member.Member;
 
 /**
  * 회원 정보를 저장하거나 조회한다.

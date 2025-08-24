@@ -1,11 +1,12 @@
-package songspring.splearn.application.required;
+package songspring.splearn.application.member.required;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static songspring.splearn.domain.MemberFixture.createMember;
-import static songspring.splearn.domain.MemberFixture.createPasswordEncode;
+import static songspring.splearn.domain.member.MemberFixture.createMember;
+import static songspring.splearn.domain.member.MemberFixture.createPasswordEncode;
 
 import jakarta.persistence.EntityManager;
 import java.util.ArrayList;
@@ -17,12 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.util.ReflectionTestUtils;
-import songspring.splearn.application.MemberModifyService;
-import songspring.splearn.application.provided.MemberRegister;
-import songspring.splearn.domain.Email;
-import songspring.splearn.domain.Member;
-import songspring.splearn.domain.MemberFixture;
-import songspring.splearn.domain.MemberStauts;
+import songspring.splearn.application.member.MemberModifyService;
+import songspring.splearn.application.member.provided.MemberRegister;
+import songspring.splearn.domain.shared.Email;
+import songspring.splearn.domain.member.Member;
+import songspring.splearn.domain.member.MemberFixture;
+import songspring.splearn.domain.member.MemberStauts;
 
 @DataJpaTest
 class MemberRepositoryTest {
@@ -44,6 +45,11 @@ class MemberRepositoryTest {
         assertThat(member.getId()).isNotNull();
 
         em.flush();
+        em.clear();
+
+        var found = memberRepository.findById(member.getId()).orElseThrow();
+        assertThat(found.getStatus()).isEqualTo(MemberStauts.PENDING);
+        assertThat(found.getDetail().getRegisteredAt()).isNotNull();
 
     }
 

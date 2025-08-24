@@ -1,4 +1,4 @@
-package songspring.splearn.application.provided;
+package songspring.splearn.application.member.provided;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -11,13 +11,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.util.ReflectionTestUtils;
-import songspring.splearn.application.MemberModifyService;
-import songspring.splearn.application.required.EmailSender;
-import songspring.splearn.application.required.MemberRepository;
-import songspring.splearn.domain.Email;
-import songspring.splearn.domain.Member;
-import songspring.splearn.domain.MemberFixture;
-import songspring.splearn.domain.MemberStauts;
+import songspring.splearn.application.member.MemberModifyService;
+import songspring.splearn.application.member.required.EmailSender;
+import songspring.splearn.application.member.required.MemberRepository;
+import songspring.splearn.domain.shared.Email;
+import songspring.splearn.domain.member.Member;
+import songspring.splearn.domain.member.MemberFixture;
+import songspring.splearn.domain.member.MemberStauts;
 
 @DataJpaTest
 class MemberRegisterManualTest {

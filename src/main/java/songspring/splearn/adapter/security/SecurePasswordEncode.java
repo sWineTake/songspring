@@ -2,7 +2,7 @@ package songspring.splearn.adapter.security;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import songspring.splearn.domain.PasswordEncode;
+import songspring.splearn.domain.member.PasswordEncode;
 
 @Component
 public class SecurePasswordEncode implements PasswordEncode {

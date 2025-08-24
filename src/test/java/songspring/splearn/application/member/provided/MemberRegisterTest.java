@@ -1,6 +1,5 @@
-package songspring.splearn.application.provided;
+package songspring.splearn.application.member.provided;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -11,11 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import songspring.splearn.SplearnTestConfig;
-import songspring.splearn.domain.DuplicateEmailException;
-import songspring.splearn.domain.Member;
-import songspring.splearn.domain.MemberFixture;
-import songspring.splearn.domain.MemberRegisterRequest;
-import songspring.splearn.domain.MemberStauts;
+import songspring.splearn.domain.member.DuplicateEmailException;
+import songspring.splearn.domain.member.Member;
+import songspring.splearn.domain.member.MemberFixture;
+import songspring.splearn.domain.member.MemberRegisterRequest;
+import songspring.splearn.domain.member.MemberStauts;
 
 @Transactional
 @SpringBootTest

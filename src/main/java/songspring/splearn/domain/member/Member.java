@@ -1,28 +1,25 @@
-package songspring.splearn.domain;
+package songspring.splearn.domain.member;
 
 import static org.springframework.util.Assert.state;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToOne;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
+import songspring.splearn.domain.AbstractEntity;
+import songspring.splearn.domain.shared.Email;
 
 @Entity
 @Getter
-@ToString(callSuper = true)
+@ToString(callSuper = true, exclude = "detail")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @NaturalIdCache
 public class Member extends AbstractEntity {
@@ -36,6 +33,7 @@ public class Member extends AbstractEntity {
 
     private MemberStauts status;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private MemberDetail detail;
 
     public static Member register(MemberRegisterRequest createRequest, PasswordEncode passwordEncode) {
@@ -46,6 +44,8 @@ public class Member extends AbstractEntity {
         member.passwordHash = Objects.requireNonNull(passwordEncode.encode(createRequest.password()));
         member.status = MemberStauts.PENDING;
 
+        member.detail = MemberDetail.create();
+
         return member;
     }
 
@@ -53,20 +53,25 @@ public class Member extends AbstractEntity {
         state(this.status == MemberStauts.PENDING, "PENDING 상태가 아닙니다");
 
         this.status = MemberStauts.ACTIVE;
+        this.detail.updateActivatedAt();
     }
 
     public void deactivate() {
         state(status == MemberStauts.ACTIVE, "PENDING 상태가 아닙니다");
 
         this.status = MemberStauts.DEACTIVATED;
+        this.detail.updateDeactivatedAt();
     }
 
     public boolean verifyPassword(String password, PasswordEncode passwordEncode) {
         return passwordEncode.matches(password, passwordHash);
     }
 
-    public void changeNickname(String nickname) {
-        this.nickname = Objects.requireNonNull(nickname);
+
+    public void updateInfo(MemberInfoUpdateRequest updateRequest) {
+        this.nickname = Objects.requireNonNull(updateRequest.nickname());
+
+        this.detail.updateInfo(updateRequest);
     }
 
     public void changePassword(String newPassword, PasswordEncode passwordEncode) {

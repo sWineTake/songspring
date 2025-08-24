@@ -1,4 +1,4 @@
-package songspring.splearn.domain;
+package songspring.splearn.domain.member;
 
 public interface PasswordEncode {
 

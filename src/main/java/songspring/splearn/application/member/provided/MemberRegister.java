@@ -1,8 +1,8 @@
-package songspring.splearn.application.provided;
+package songspring.splearn.application.member.provided;
 
 import jakarta.validation.Valid;
-import songspring.splearn.domain.Member;
-import songspring.splearn.domain.MemberRegisterRequest;
+import songspring.splearn.domain.member.Member;
+import songspring.splearn.domain.member.MemberRegisterRequest;
 
 /**
  * 회원의 등록과 관련된 기능을 제공한다.

@@ -1,18 +1,17 @@
-package songspring.splearn.application;
+package songspring.splearn.application.member;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import songspring.splearn.application.provided.MemberFinder;
-import songspring.splearn.application.provided.MemberRegister;
-import songspring.splearn.application.required.EmailSender;
-import songspring.splearn.application.required.MemberRepository;
-import songspring.splearn.domain.DuplicateEmailException;
-import songspring.splearn.domain.Email;
-import songspring.splearn.domain.Member;
-import songspring.splearn.domain.MemberRegisterRequest;
-import songspring.splearn.domain.PasswordEncode;
+import songspring.splearn.application.member.provided.MemberRegister;
+import songspring.splearn.application.member.required.EmailSender;
+import songspring.splearn.application.member.required.MemberRepository;
+import songspring.splearn.domain.member.DuplicateEmailException;
+import songspring.splearn.domain.shared.Email;
+import songspring.splearn.domain.member.Member;
+import songspring.splearn.domain.member.MemberRegisterRequest;
+import songspring.splearn.domain.member.PasswordEncode;
 
 @Service
 @Validated

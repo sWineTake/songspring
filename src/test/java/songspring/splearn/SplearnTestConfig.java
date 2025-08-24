@@ -2,9 +2,9 @@ package songspring.splearn;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import songspring.splearn.application.required.EmailSender;
-import songspring.splearn.domain.MemberFixture;
-import songspring.splearn.domain.PasswordEncode;
+import songspring.splearn.application.member.required.EmailSender;
+import songspring.splearn.domain.member.MemberFixture;
+import songspring.splearn.domain.member.PasswordEncode;
 
 @TestConfiguration
 public class SplearnTestConfig {

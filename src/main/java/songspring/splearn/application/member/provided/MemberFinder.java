@@ -1,6 +1,6 @@
-package songspring.splearn.application.provided;
+package songspring.splearn.application.member.provided;
 
-import songspring.splearn.domain.Member;
+import songspring.splearn.domain.member.Member;
 
 /**
  * 회원을 조회 한다

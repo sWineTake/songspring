@@ -20,6 +20,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.util.ReflectionTestUtils;
 import songspring.splearn.application.member.MemberModifyService;
 import songspring.splearn.application.member.provided.MemberRegister;
+import songspring.splearn.domain.member.MemberInfoUpdateRequest;
 import songspring.splearn.domain.shared.Email;
 import songspring.splearn.domain.member.Member;
 import songspring.splearn.domain.member.MemberFixture;
@@ -33,6 +34,8 @@ class MemberRepositoryTest {
 
     @Autowired
     EntityManager em;
+    @Autowired
+    private MemberRegister memberRegister;
 
     @Test
     void 회원을_저장_할_수있다() {
@@ -51,6 +54,42 @@ class MemberRepositoryTest {
         assertThat(found.getStatus()).isEqualTo(MemberStauts.PENDING);
         assertThat(found.getDetail().getRegisteredAt()).isNotNull();
 
+    }
+
+    @Test
+    void deactivate() {
+
+        Member member = createMember(createPasswordEncode());
+        em.flush();
+        em.clear();
+
+        Member activate = memberRegister.activate(member.getId());
+        em.flush();
+        em.clear();
+
+        Member deactivate = memberRegister.deactivate(activate.getId());
+
+        assertThat(deactivate.getStatus()).isEqualTo(MemberStauts.DEACTIVATED);
+        assertThat(deactivate.getDetail().getDeactivatedAt()).isNotNull();
+
+    }
+
+    @Test
+    void memberUpdate() {
+
+        Member member = createMember(createPasswordEncode());
+        em.flush();
+        em.clear();
+
+        Member activate = memberRegister.activate(member.getId());
+        em.flush();
+        em.clear();
+
+        member = memberRegister.updateInfo(activate.getId(), new MemberInfoUpdateRequest("woosong", "newprofile1234", "자기소개"));
+        em.flush();
+        em.clear();
+
+        assertThat(member.getDetail().getProfile().address()).isEqualTo("newprofile1234");
     }
 
     @Test
@@ -174,4 +213,8 @@ class MemberRepositoryTest {
 
         Mockito.verify(emailSenderMock).send(eq(member.getEmail()), any(), any());
     }
+
+
+
+
 }

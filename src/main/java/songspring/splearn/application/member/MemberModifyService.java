@@ -8,6 +8,7 @@ import songspring.splearn.application.member.provided.MemberRegister;
 import songspring.splearn.application.member.required.EmailSender;
 import songspring.splearn.application.member.required.MemberRepository;
 import songspring.splearn.domain.member.DuplicateEmailException;
+import songspring.splearn.domain.member.MemberInfoUpdateRequest;
 import songspring.splearn.domain.shared.Email;
 import songspring.splearn.domain.member.Member;
 import songspring.splearn.domain.member.MemberRegisterRequest;
@@ -41,9 +42,25 @@ public class MemberModifyService implements MemberRegister {
     public Member activate(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. id : " + memberId));
 
-        // Member member = memberFinder.find(memberId);
-
         member.activate();
+
+        return memberRepository.save(member);
+    }
+
+    @Override
+    public Member deactivate(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. id : " + memberId));
+
+        member.deactivate();
+
+        return memberRepository.save(member);
+    }
+
+    @Override
+    public Member updateInfo(Long memberId, MemberInfoUpdateRequest memberInfoUpdateRequest) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. id : " + memberId));
+
+        member.updateInfo(memberInfoUpdateRequest);
 
         return memberRepository.save(member);
     }

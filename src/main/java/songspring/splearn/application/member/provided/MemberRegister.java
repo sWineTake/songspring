@@ -2,6 +2,7 @@ package songspring.splearn.application.member.provided;
 
 import jakarta.validation.Valid;
 import songspring.splearn.domain.member.Member;
+import songspring.splearn.domain.member.MemberInfoUpdateRequest;
 import songspring.splearn.domain.member.MemberRegisterRequest;
 
 /**
@@ -13,4 +14,7 @@ public interface MemberRegister {
 
     Member activate(Long memberId);
 
+    Member deactivate(Long memberId);
+
+    Member updateInfo(Long memberId, @Valid MemberInfoUpdateRequest memberInfoUpdateRequest);
 }

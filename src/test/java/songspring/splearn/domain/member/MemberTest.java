@@ -134,4 +134,15 @@ class MemberTest {
         assertThat(member.getDetail().getIntroduction()).isEqualTo(req.introduction());
 
     }
+
+    @Test
+    void updateInfoFail() {
+
+        assertThatThrownBy(() -> {
+            var req = new MemberInfoUpdateRequest("woosong", "newprofile1234", "자기소개");
+            member.updateInfo(req);
+        }).isInstanceOf(IllegalStateException.class);
+
+    }
+
 }

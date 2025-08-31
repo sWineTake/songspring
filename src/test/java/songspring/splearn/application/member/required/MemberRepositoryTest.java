@@ -1,6 +1,5 @@
 package songspring.splearn.application.member.required;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,15 +15,23 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
+import songspring.splearn.adapter.security.SecurePasswordEncode;
 import songspring.splearn.application.member.MemberModifyService;
 import songspring.splearn.application.member.provided.MemberRegister;
-import songspring.splearn.domain.member.MemberInfoUpdateRequest;
-import songspring.splearn.domain.shared.Email;
 import songspring.splearn.domain.member.Member;
 import songspring.splearn.domain.member.MemberFixture;
+import songspring.splearn.domain.member.MemberInfoUpdateRequest;
 import songspring.splearn.domain.member.MemberStauts;
+import songspring.splearn.domain.member.Profile;
+import songspring.splearn.domain.shared.Email;
 
 @DataJpaTest
 class MemberRepositoryTest {
@@ -34,8 +41,23 @@ class MemberRepositoryTest {
 
     @Autowired
     EntityManager em;
+
     @Autowired
     private MemberRegister memberRegister;
+
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        @Primary
+        public EmailSender emailSender() {
+            return Mockito.mock(EmailSender.class);
+        }
+
+        @Bean
+        public MemberRegister memberRegister(MemberRepository memberRepository, EmailSender emailSender) {
+            return new MemberModifyService(memberRepository, emailSender, new SecurePasswordEncode());
+        }
+    }
 
     @Test
     void 회원을_저장_할_수있다() {
@@ -60,6 +82,7 @@ class MemberRepositoryTest {
     void deactivate() {
 
         Member member = createMember(createPasswordEncode());
+        memberRepository.save(member);
         em.flush();
         em.clear();
 
@@ -75,9 +98,10 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void memberUpdate() {
+    void memberUpdateInfo() {
 
         Member member = createMember(createPasswordEncode());
+        memberRepository.save(member);
         em.flush();
         em.clear();
 
@@ -138,6 +162,11 @@ class MemberRepositoryTest {
             return Optional.empty();
         }
 
+        @Override
+        public Optional<Member> findByProfile(Profile profile) {
+            return Optional.empty();
+        }
+
 
     }
 
@@ -182,6 +211,11 @@ class MemberRepositoryTest {
 
         @Override
         public Optional<Member> findById(Long memberId) {
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<Member> findByProfile(Profile profile) {
             return Optional.empty();
         }
     }

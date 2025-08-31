@@ -14,6 +14,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import songspring.splearn.application.member.MemberModifyService;
 import songspring.splearn.application.member.required.EmailSender;
 import songspring.splearn.application.member.required.MemberRepository;
+import songspring.splearn.domain.member.Profile;
 import songspring.splearn.domain.shared.Email;
 import songspring.splearn.domain.member.Member;
 import songspring.splearn.domain.member.MemberFixture;
@@ -53,6 +54,11 @@ class MemberRegisterManualTest {
 
         @Override
         public Optional<Member> findById(Long memberId) {
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<Member> findByProfile(Profile profile) {
             return Optional.empty();
         }
 
@@ -99,6 +105,11 @@ class MemberRegisterManualTest {
 
         @Override
         public Optional<Member> findById(Long memberId) {
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<Member> findByProfile(Profile profile) {
             return Optional.empty();
         }
     }

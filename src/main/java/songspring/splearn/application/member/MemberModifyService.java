@@ -9,6 +9,7 @@ import songspring.splearn.application.member.required.EmailSender;
 import songspring.splearn.application.member.required.MemberRepository;
 import songspring.splearn.domain.member.DuplicateEmailException;
 import songspring.splearn.domain.member.MemberInfoUpdateRequest;
+import songspring.splearn.domain.member.Profile;
 import songspring.splearn.domain.shared.Email;
 import songspring.splearn.domain.member.Member;
 import songspring.splearn.domain.member.MemberRegisterRequest;
@@ -60,9 +61,23 @@ public class MemberModifyService implements MemberRegister {
     public Member updateInfo(Long memberId, MemberInfoUpdateRequest memberInfoUpdateRequest) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. id : " + memberId));
 
+        checkDuplicateProfile(member, memberInfoUpdateRequest.profileAddress());
+
         member.updateInfo(memberInfoUpdateRequest);
 
         return memberRepository.save(member);
+    }
+
+    private void checkDuplicateProfile(Member member, String profileAddress) {
+
+        if (profileAddress.isEmpty()) return;
+        Profile currentProfile = member.getDetail().getProfile();
+        if (currentProfile == null || currentProfile.address().equals(profileAddress)) return;
+
+        if (memberRepository.findByProfile(new Profile(profileAddress)).isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 프로필 주소입니다.");
+        }
+
     }
 
     private void sendWelcomeEmail(Member member) {
